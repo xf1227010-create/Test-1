@@ -5,16 +5,16 @@
  */
 export function TopAppBar() {
   const navItems = [
-    { label: 'Dashboard', active: true },
-    { label: 'Project Manager', active: false },
-    { label: 'Exports', active: false },
-    { label: 'Settings', active: false },
+    { label: '工作台', active: true },
+    { label: '项目管理', active: false },
+    { label: '导出', active: false },
+    { label: '设置', active: false },
   ];
   return (
     <header className="flex justify-between items-center h-[56px] px-6 w-full border-b border-outline-variant bg-background z-50 fixed top-0 left-0 right-0">
       <div className="flex items-center gap-6">
         <h1 className="text-headline-md font-display font-bold tracking-tight text-on-surface">
-          REBAR DIGITAL TWIN
+          钢筋数字孪生
         </h1>
         <nav className="hidden md:flex gap-6">
           {navItems.map((it) => (
@@ -35,7 +35,7 @@ export function TopAppBar() {
       </div>
       <div className="flex items-center gap-4">
         <button className="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all text-sm">
-          Run Clash Detection
+          运行碰撞校核
         </button>
         <div className="flex gap-3 text-outline">
           <span className="material-symbols-outlined cursor-pointer hover:text-on-surface">

@@ -25,7 +25,7 @@ export function Rebar({
   path,
   scale = 0.001,
   tubularSegments,
-  radialSegments = 16,
+  radialSegments,
   lodDistance = 6,
 }: Props) {
   const lod = useMemo(() => {
@@ -33,13 +33,24 @@ export function Rebar({
     const length = approximatePathLength(path);
     const radius = path.diameter / 2;
 
-    // 高精度
-    const segsHigh = tubularSegments ?? Math.max(32, Math.min(400, Math.round(length / 30)));
+    // 分段策略
+    // 箍筋: 周长 ~1.8m 中有 5~7 个圆角, 每个圆弧只占总长 ~2~3% ,
+    //       按 TubeGeometry 沿弧长均匀分段的特性, 必须把整体分段调到很高
+    //       才能让每个圆弧拿到 >=12 段. 这里用 length/6, 上限 800.
+    // 纵筋: 几乎全是直线 + 锚固弯钩, length/30 已足够.
+    const isStirrup = path.kind === 'stirrup';
+    const defaultSegs = isStirrup
+      ? Math.max(220, Math.min(800, Math.round(length / 6)))
+      : Math.max(40, Math.min(400, Math.round(length / 28)));
+    const segsHigh = tubularSegments ?? defaultSegs;
+    // 管壁圆周分段: 箍筋直径小、近距离观察时 16 段会显棱角, 升至 20.
+    const defaultRadial = isStirrup ? 20 : 16;
+    const radialFinal = radialSegments ?? defaultRadial;
     const geoHigh = new THREE.TubeGeometry(
       curve as unknown as THREE.Curve<THREE.Vector3>,
       segsHigh,
       radius,
-      radialSegments,
+      radialFinal,
       false,
     );
     const matHigh = createRebarMaterial(path.diameter, length);
