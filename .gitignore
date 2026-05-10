@@ -1,0 +1,22 @@
+node_modules
+dist
+.vite
+*.log
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 构建/缓存
+.cache/
+.tmp/
+coverage/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
